@@ -7,15 +7,17 @@ namespace DependencyInjection.Console
     {
         private readonly ISquarePainter _squarePainter;
 
-        public PatternGenerator()
+        public PatternGenerator(CircleSquarePainter circleSquarePainter)
         {
-            _squarePainter = new CircleSquarePainter();
+            _squarePainter = circleSquarePainter;
         }
 
-        public Pattern Generate(int width, int height)
+        public Pattern Generate(Pattern pattern)
         {
-            var pattern = new Pattern(width, height);
             var squares = pattern.Squares;
+
+            var height = pattern.Squares.GetLength(0);
+            var width = pattern.Squares.GetLength(1);
 
             for (var i = 0; i < width; ++i)
             {

@@ -1,20 +1,22 @@
-﻿namespace DependencyInjection.Console
+﻿using DependencyInjection.Console.Entities;
+
+namespace DependencyInjection.Console
 {
     internal class PatternApp
     {
         private readonly PatternWriter _patternWriter;
         private readonly PatternGenerator _patternGenerator;
 
-        public PatternApp(bool useColours)
+        public PatternApp(PatternWriter patternWriter, PatternGenerator patternGenerator)
         {
-            _patternWriter = new PatternWriter(useColours);
-            _patternGenerator = new PatternGenerator();
+            _patternWriter = patternWriter;
+            _patternGenerator = patternGenerator;
         }
 
-        public void Run(int width, int height)
+        public void Run(Pattern pattern)
         {
-            var pattern = _patternGenerator.Generate(width, height);
-            _patternWriter.Write(pattern);
+            var generatedPattern = _patternGenerator.Generate(pattern);
+            _patternWriter.Write(generatedPattern);
         }
     }
 }
