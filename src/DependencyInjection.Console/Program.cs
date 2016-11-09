@@ -1,4 +1,6 @@
-﻿using DependencyInjection.Console.CharacterWriters;
+﻿using System;
+using System.Collections;
+using DependencyInjection.Console.CharacterWriters;
 using DependencyInjection.Console.Entities;
 using DependencyInjection.Console.SquarePainters;
 using NDesk.Options;
@@ -30,9 +32,23 @@ namespace DependencyInjection.Console
             
             var patternWriter = new PatternWriter(characterWriter);
 
-            var circleSquarePainter = new CircleSquarePainter();
+            ISquarePainter painter;
+            switch (pattern)
+            {
+                case "circle":
+                    painter = new CircleSquarePainter();
+                    break;
+                case "oddeven":
+                    painter = new OddEvenSquarePainter();
+                    break;
+                case "white":
+                    painter = new WhiteSquarePainter();
+                    break;
+                default:
+                    throw new ArgumentException($"Unrecognised pattern: {pattern}");
+            }
 
-            var patternGenerator = new PatternGenerator(circleSquarePainter);
+            var patternGenerator = new PatternGenerator(painter);
 
             var app = new PatternApp(patternWriter,patternGenerator);
             app.Run(new Pattern(width,height));
